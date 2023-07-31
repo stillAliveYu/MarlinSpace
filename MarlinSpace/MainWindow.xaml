@@ -35,10 +35,10 @@
         <Label Grid.Column="1" Content="Sensor A" HorizontalAlignment="Left" Margin="158,10,0,0" VerticalAlignment="Top"/>
         <TextBox Grid.Column="1" x:Name="targetBoxA"  HorizontalAlignment="Left" Margin="120,40,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="120" PreviewTextInput="targetBox_PreviewTextInput"/>
         <Label Grid.Column="1" Content="Search Target" HorizontalAlignment="Left" Margin="26,35,0,0" VerticalAlignment="Top"/>
-        <Button Grid.Column="1" x:Name="selectionSortBtn"  Content="Selection Sort" HorizontalAlignment="Left" Margin="30,65,0,0" VerticalAlignment="Top" Click="selectionSortBtn_Click"/>
+        <Button Grid.Column="1" x:Name="selectionSortBtnA"  Content="Selection Sort" HorizontalAlignment="Left" Margin="30,65,0,0" VerticalAlignment="Top" Click="selectionSortBtn_Click"/>
         <TextBox Grid.Column="1" x:Name="selectionSortPerformance" HorizontalAlignment="Left" Margin="30,90,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="80" IsEnabled="False"/>
         <ListBox Grid.Column="1" x:Name="sensorAListBox" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="152,80,112,62" Grid.RowSpan="2" SelectionMode="Multiple"/>
-        <Button Grid.Column="1" x:Name="insertSortBtn" Content="Insertion Sort" HorizontalAlignment="Left" Margin="30,120,0,0" VerticalAlignment="Top" Width="79" Click="insertSortBtn_Click"/>
+        <Button Grid.Column="1" x:Name="insertSortBtnA" Content="Insertion Sort" HorizontalAlignment="Left" Margin="30,120,0,0" VerticalAlignment="Top" Width="79" Click="insertSortBtn_Click"/>
         <Button x:Name="BSIterative"  Grid.Column="1" Content="Binary Search Interative" HorizontalAlignment="Left" Margin="8,194,0,0" VerticalAlignment="Top" Click="BSIterative_Click"/>
         <Button x:Name="BSRecursive"  Grid.Column="1" Content="Binary Search Recursive" HorizontalAlignment="Left" Margin="9,262,0,0" VerticalAlignment="Top" Click="BSRecursive_Click"/>
         <TextBox Grid.Column="1" x:Name="insertionSortPerformance"  HorizontalAlignment="Left" Margin="30,155,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="77" Height="20" IsEnabled="False"/>

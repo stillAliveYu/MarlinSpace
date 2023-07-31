@@ -60,7 +60,7 @@ namespace MarlinSpace
         {
             //this is for debug in the first stage
             initConsoleTraceListener();
-            populateComoBox(sigmaFilePath,sigmaInput);
+            populateComoBox(sigmaFilePath, sigmaInput);
             populateComoBox(muFilePath, MUInput);
             btnStatusControl();
         }
@@ -70,7 +70,7 @@ namespace MarlinSpace
         and a maximum of 20. Set the default value to 10. The value for Mu must be limited with a minimum of 35 and a maximum of 75.
         Set the default value to 50.
          */
-        private void populateComoBox(string filePath,ComboBox cb) {
+        private void populateComoBox(string filePath, ComboBox cb) {
             string[] dataString = System.IO.File.ReadAllLines(filePath);
             for (int i = 0; i < dataString.Length; i++)
             {
@@ -86,14 +86,14 @@ namespace MarlinSpace
         The LinkedList size will be hardcoded inside the method and must be equal to 400. 
         The input parameters are empty, and the return type is void.
          */
-        private void loadData() { 
+        private void loadData() {
             sensorAList.Clear();
             sensorBList.Clear();
-           
-            for(int i = 0; i<listSize;i++)
+
+            for (int i = 0; i < listSize; i++)
             {
-                sensorAList.AddLast(createNode(sigmaInput.Text,MUInput.Text,0));
-                sensorBList.AddLast(createNode(sigmaInput.Text, MUInput.Text,1));
+                sensorAList.AddLast(createNode(sigmaInput.Text, MUInput.Text, 0));
+                sensorBList.AddLast(createNode(sigmaInput.Text, MUInput.Text, 1));
             }
             showAllSensorData(SensorDataListView);
 
@@ -109,20 +109,20 @@ namespace MarlinSpace
             bool isDone = selection_sort(sensorAList);
             sw.Stop();
             double during = sw.Elapsed.TotalMilliseconds;
-            
+
             if (isDone)
             {
                 displayListBoxData(sensorAList, sensorAListBox);
                 displayPerformanceInMilliseconds(during, selectionSortPerformance);
                 isSorted = true;
             }
-            else { 
+            else {
                 //pop up error message
             }
             btnStatusControl();
         }
 
-        private void displayPerformanceInMilliseconds(double milliseconds, TextBox  tb) {
+        private void displayPerformanceInMilliseconds(double milliseconds, TextBox tb) {
             tb.Text = milliseconds.ToString();
         }
         private void displayPerformanceInTicks(long ticks, TextBox tb)
@@ -152,7 +152,7 @@ namespace MarlinSpace
                     }
                 }
             }
-           
+
             return true;
         }
 
@@ -179,7 +179,7 @@ namespace MarlinSpace
 
             if (isDone) {
                 displayListBoxData(sensorAList, sensorAListBox);
-                displayPerformanceInMilliseconds(during,insertionSortPerformance);
+                displayPerformanceInMilliseconds(during, insertionSortPerformance);
                 isSorted = true;
             }
             btnStatusControl();
@@ -216,20 +216,20 @@ namespace MarlinSpace
         #region Binary Search Iterative
 
 
-        
+
         private void BSIterative_Click(object sender, RoutedEventArgs e)
         {
-            
-            if (isTargetOutofBoundary(sensorAList,transformToDouble(targetBoxA.Text), (sensorAList.Count - 1) / 2))
+
+            if (isTargetOutofBoundary(sensorAList, transformTInt(targetBoxA.Text), (sensorAList.Count - 1) / 2))
             {
-                ShowOkMessage("The target is out of bounday","Input Error");
+                ShowOkMessage("The target is out of bounday", "Input Error");
             }
 
 
             else {
                 Stopwatch sw = new Stopwatch();
                 sw.Start();
-                int index = binSearch_Interative(sensorAList, transformToDouble(targetBoxA.Text), sensorAList.Count - 1, 0); 
+                int index = binSearch_Interative(sensorAList, transformTInt(targetBoxA.Text), sensorAList.Count - 1, 0);
                 sw.Stop();
                 long ticks = sw.ElapsedTicks;
 
@@ -248,15 +248,15 @@ namespace MarlinSpace
         search value, minimum list size and the number of nodes in the list. The method code must follow the pseudo code
         supplied below in the Appendix.
          */
-        private int binSearch_Interative(LinkedList<double> li,double target,int maximum,int minimum) { 
+        private int binSearch_Interative(LinkedList<double> li, double target, int maximum, int minimum) {
             // if (isTargetOutofBoundary(li,target,(maximum+minimum)/2)) return -99 ;
             while (minimum <= maximum - 1)
             {
                 int middle = (maximum + minimum) / 2;
-                
+
                 if (locateSearchRange(li, middle, target)) {
-                   
-                    return getClosestIndex(li,middle,target); 
+
+                    return getClosestIndex(li, middle, target);
                 }
                 else if (li.ElementAt(middle) < target) { minimum = middle + 1; }
                 else if (li.ElementAt(middle) > target) { maximum = middle - 1; }
@@ -269,13 +269,13 @@ namespace MarlinSpace
         //-1 means yes and the gap in the left
         //1 means yes and the gap in the right
         //-99 means no
-        private bool locateSearchRange(LinkedList<double> li,int middle,double target) {
-           
+        private bool locateSearchRange(LinkedList<double> li, int middle, double target) {
+
             if (target > li.ElementAt(middle - 1) && target < li.ElementAt(middle + 1)) {
-                
+
                 return true;
-            } 
-                
+            }
+
             //if not found ,return false
             return false;
         }
@@ -283,15 +283,15 @@ namespace MarlinSpace
         private int getClosestIndex(LinkedList<double> li, int middle, double target) {
             int start = middle - 1;
             int end = middle + 1;
-            
+
             //todo check the boundary
             double valueOfStart = li.ElementAt(start);
             double valueOfMiddle = li.ElementAt(middle);
 
             double gap1 = Math.Abs(target - valueOfStart);
-            
+
             double gap2 = Math.Abs(valueOfMiddle - target);
-           
+
             double smallest = getSmallerNumber(gap1, gap2);
 
             if (end < li.Count)
@@ -299,15 +299,15 @@ namespace MarlinSpace
                 double valueOfEnd = li.ElementAt(end);
                 double gap3 = Math.Abs(valueOfEnd - target);
                 smallest = getSmallerNumber(gap3, getSmallerNumber(gap1, gap2));
-               
+
             }
             if (smallest == gap1) { return start; }
             if (smallest == gap2) { return middle; }
-           
+
             return end;
         }
 
-        private bool isIndexOutOfBoundary(int max,int index) {
+        private bool isIndexOutOfBoundary(int max, int index) {
             if (index < 0 || index > max) { return true; }
             else return false;
         }
@@ -332,19 +332,20 @@ namespace MarlinSpace
         private void BSRecursive_Click(object sender, RoutedEventArgs e)
         {
 
-            if (isTargetOutofBoundary(sensorAList, transformToDouble(targetBoxA.Text), (sensorAList.Count - 1) / 2))
+            if (isTargetOutofBoundary(sensorAList, transformTInt(targetBoxA.Text), (sensorAList.Count - 1) / 2))
             {
                 ShowOkMessage("The target is out of bounday", "Input Error");
             }
             else {
                 Stopwatch sw = new Stopwatch();
                 sw.Start();
-                int index = binarySearchRecursive(sensorAList, transformToDouble(targetBoxA.Text), 0, sensorAList.Count - 1);
+                int index = binarySearchRecursive(sensorAList, transformTInt(targetBoxA.Text), 0, sensorAList.Count - 1);
                 sw.Stop();
                 long ticks = sw.ElapsedTicks;
 
                 if (index != error_flag)
                 {
+                    highlightItems(sensorAList, sensorAListBox, index, 2);
                     displayPerformanceInTicks(ticks, recursivePerformance);
                 }
             }
@@ -359,7 +360,7 @@ namespace MarlinSpace
          */
         private int binarySearchRecursive(LinkedList<double> li, double target, int l, int r) {
             //add a loop monitor here
-           
+
             if (r >= l)
             {
                 int mid = (l + r) / 2;
@@ -369,13 +370,13 @@ namespace MarlinSpace
 
                 // If element is smaller than mid, then
                 // it can only be present in left subarray
-               
+
                 if (li.ElementAt(mid) > target)
-                    return binarySearchRecursive(li, target, l, mid );
+                    return binarySearchRecursive(li, target, l, mid);
 
                 // Else the element can only be present
-                else return binarySearchRecursive(li, target, mid , r); 
-               
+                else return binarySearchRecursive(li, target, mid, r);
+
             }
 
             //if found nothing ,return error flag -99
@@ -386,23 +387,26 @@ namespace MarlinSpace
 
         #region Highlight the listBox
 
-        private void highlightItems(LinkedList<double>li,ListBox lb,int index, int offset) {
+        private void highlightItems(LinkedList<double> li, ListBox lb, int index, int offset) {
             sensorAListBox.SelectedItems.Clear();
             sensorAListBox.SelectedItems.Add(sensorAList.ElementAt(index));
+
             // hightlight the offset ones if they exists
-            for (int i = -(offset); i < offset+1; i++) {
-                 if (isIndexOutOfBoundary(li.Count, index +i ) || (index +i) > 0) {
+            for (int i = -(offset); i < offset + 1; i++) {
+                if (!isIndexOutOfBoundary(li.Count, index + i) && (index + i) > 0) {
                     lb.SelectedItems.Add(sensorAList.ElementAt(index + i));
+                    lb.ScrollIntoView(sensorAList.ElementAt(index + i));
                 }
             }
+
         }
         #endregion
 
         #region UTILS
         private void ShowOkMessage(string message, string title)
         {
-            MessageBox.Show(message,title);
-           
+            MessageBox.Show(message, title);
+
         }
 
         /**
@@ -416,9 +420,9 @@ namespace MarlinSpace
             return li.Count;
         }
 
-        private double transformToDouble(string value)
+        private int transformTInt(string value)
         {
-            return double.Parse(value);
+            return int.Parse(value);
         }
 
         private bool isTargetOutofBoundary(LinkedList<double> li, double target, int mid)
@@ -496,15 +500,46 @@ namespace MarlinSpace
          */
         private void targetBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-            //Regex reg = new Regex(@"^([0-9]{1,4}((\.)[0-9]{0,1})?)$");
-            Regex reg = new Regex(@"^([0-9]{1,4}?)$");
-            e.Handled = !reg.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text));
+            
+            //Regex reg = new Regex(@"^([0-9]{1,3}?)$");
+            Regex reg = new Regex(@"^([0-9]{1,3}?)$");
+            bool const1 = !reg.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text));
+            e.Handled = const1;
+            if (!const1)
+            {
+                 bool const2 = isTargetOutofBoundary(sensorAList,
+                            transformTInt((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text)),
+                            ((sensorAList.Count - 1) / 2));
+                //e.Handled = !reg.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text));
+
+                e.Handled = const2;
+            }
         }
         #endregion
 
         #region BUTTON STATUS CONTROL
-
+        private bool isSensorListEmpty(LinkedList<double> li){
+            return li.Count == 0;
+        }
         private void btnStatusControl() {
+            if (isSensorListEmpty(sensorAList))
+            {
+                targetBoxA.IsEnabled = false;
+            }
+            if (!isSensorListEmpty(sensorAList))
+            {
+                targetBoxA.IsEnabled = true;
+            }
+            if (isSensorListEmpty(sensorAList)) {
+                selectionSortBtnA.IsEnabled = false;
+                insertSortBtnA.IsEnabled = false;
+            }
+            if (!isSensorListEmpty(sensorAList))
+            {
+                selectionSortBtnA.IsEnabled = true;
+                insertSortBtnA.IsEnabled = true;
+            }
+
             if (isSorted == false) {
                 BSIterative.IsEnabled = false;
                 BSRecursive.IsEnabled = false;
