@@ -7,8 +7,8 @@
         xmlns:local="clr-namespace:MarlinSpace"
         mc:Ignorable="d"
         Title="Marlin Space" Height="650" Width="900" Loaded="Marlin_Space_Main_Window_Loaded">
-   
-    
+
+
     <Grid Margin="5,10,5,5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
@@ -44,5 +44,17 @@
         <TextBox Grid.Column="1" x:Name="insertionSortPerformance"  HorizontalAlignment="Left" Margin="30,155,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="77" Height="20" IsEnabled="False"/>
         <TextBox Grid.Column="1" x:Name="recursivePerformance"  HorizontalAlignment="Left" Margin="15,289,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
         <TextBox Grid.Column="1"  x:Name="interativePerformance"  HorizontalAlignment="Left" Margin="15,224,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
+        <Label Grid.Column="2" Content="SensorB" HorizontalAlignment="Left" Margin="140,10,0,0" VerticalAlignment="Top"/>
+        <Label Grid.Column="2" Content="Search Target" HorizontalAlignment="Left" Margin="50,35,0,0" VerticalAlignment="Top"/>
+        <TextBox Grid.Column="2" x:Name="targetBoxB" HorizontalAlignment="Left" Margin="189,40,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="120" PreviewTextInput="targetBoxB_PreviewTextInput"/>
+        <ListBox Grid.Column="2" x:Name="sensorBListBox" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="208,86,62,107" Grid.RowSpan="2" SelectionMode="Multiple"/>
+        <Button Grid.Column="2" x:Name="selectionSortBtnB"  Content="selection Sort" HorizontalAlignment="Left" Margin="24,65,0,0" VerticalAlignment="Top" Width="106" Height="21" Click="selectionSortBtnB_Click"/>
+        <TextBox Grid.Column="2" x:Name="selectionSortPerformanceB"  HorizontalAlignment="Left" Margin="28,90,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="98"/>
+        <Button Grid.Column="2" x:Name="insertSortBtnB"  Content="Insertion Sort" HorizontalAlignment="Left" Margin="30,120,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.013,0.002" Click="insertSortBtnB_Click"/>
+        <TextBox Grid.Column="2" x:Name="insertionSortPerformanceB"  HorizontalAlignment="Left" Margin="26,160,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="81" Height="19"/>
+        <Button Grid.Column="2" x:Name="BSIterativeB"  Content="Binary Search Interative" HorizontalAlignment="Left" Margin="30,195,0,0" VerticalAlignment="Top" Click="BSIterativeB_Click"/>
+        <TextBox Grid.Column="2" x:Name="interativePerformanceB" HorizontalAlignment="Left" Margin="42,224,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
+        <Button Grid.Column="2"  x:Name="BSRecursiveB"  Content="Binary Search Recursive" HorizontalAlignment="Left" Margin="23,264,0,0" VerticalAlignment="Top" Width="149" Click="BSRecursiveB_Click"/>
+        <TextBox Grid.Column="2" x:Name="recursivePerformanceB"  HorizontalAlignment="Left" Margin="53,301,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120"/>
     </Grid>
 </Window>
