@@ -103,8 +103,8 @@ namespace MarlinSpace
 
             for (int i = 0; i < listSize; i++)
             {
-                sensorAList.AddLast(createNode(sigmaInput.Text, MUInput.Text, 0));
-                sensorBList.AddLast(createNode(sigmaInput.Text, MUInput.Text, 1));
+                sensorAList.AddLast(createNode(MUInput.Text,sigmaInput.Text, 0));
+                sensorBList.AddLast(createNode(MUInput.Text,sigmaInput.Text, 1));
             }
             showAllSensorData(SensorDataListView);
            
@@ -490,7 +490,10 @@ namespace MarlinSpace
 
             // hightlight the offset ones if they exists
             for (int i = -(offset); i < offset + 1; i++) {
-                if (!isIndexOutOfBoundary(li.Count, index + i) && (index + i) > 0) {
+                Trace.WriteLine("the index is ["+index+"]");
+                Trace.WriteLine("the i is [" + i + "]");
+                Trace.WriteLine("is the index out of boundary ["+ isIndexOutOfBoundary(li.Count, index + i - 1) + "]");
+                if (!isIndexOutOfBoundary(li.Count-1, index + i) && (index + i) > 0) {
                     lb.SelectedItems.Add(li.ElementAt(index + i));
                     lb.ScrollIntoView(li.ElementAt(index + i));
                 }
@@ -586,23 +589,25 @@ namespace MarlinSpace
         private void targetBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
            
-            string pattern = @"^([-0-9]{1,4}?)$";
-            bool const1 = !Regex.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, replaceMinus(e.Text)),pattern);
+            string pattern = @"^([0-9]{1,4}?)$";
+            bool const1 = !Regex.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text),pattern);
             e.Handled = const1;
+            
             if (!const1)
             {
-                 bool const2 = isTargetOutofBoundary(sensorAList,
-                            transformTInt((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text)),
-                            ((sensorAList.Count - 1) / 2));
+                bool const2 = isTargetOutofBoundary(sensorAList,
+                transformTInt((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text)),
+                ((sensorAList.Count - 1) / 2));
                 e.Handled = const2;
             }
+            
         }
 
         private void targetBoxB_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
 
-            string pattern = @"^([-0-9]{1,4}?)$";
-            bool const1 = !Regex.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, replaceMinus(e.Text)), pattern);
+            string pattern = @"^([0-9]{1,4}?)$";
+            bool const1 = !Regex.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text), pattern);
             e.Handled = const1;
             if (!const1)
             {
@@ -613,25 +618,27 @@ namespace MarlinSpace
             }
         }
 
-        private string replaceMinus(string minus) {
-            if (minus.StartsWith("-")) {
-                if (minus.Length == 1) { minus = "0"; }
-                else { minus.Replace('-', '\0'); }
-            }
-           
-            return minus;
-        }
-
         private int transformTInt(string value)
         {
-            value = replaceMinus(value);
-            Trace.WriteLine("thea value is ["+value+"]");
+           Trace.WriteLine("thea value is ["+value+"]");
             return int.Parse(value);
         }
 
         private bool isTargetOutofBoundary(LinkedList<double> li, double target, int mid)
         {
             //if the middle = 0 or middle = li.count return true
+            Trace.WriteLine("target is ["+target+"]");
+            Trace.WriteLine("max value is [" + li.ElementAt(li.Count - 1) + "]");
+            Trace.WriteLine("min value is [" + li.ElementAt(0) + "]");
+            //for the first digit 
+            if (target < 10) {
+                if ((target * 10) > li.ElementAt(li.Count - 1) || (target * 10) < li.ElementAt(0))
+                {
+                    return true;
+                }
+                else return false;
+            }
+            // for the value 10 t0 max
             if (target > li.ElementAt(li.Count - 1) || target < li.ElementAt(0))
                 return true;
             else return false;
@@ -646,10 +653,12 @@ namespace MarlinSpace
         private void btnStatusControl() {
              if (isSensorListEmpty(sensorBList))
             {
+                insertSortBtnB.IsEnabled= false;
                 targetBoxB.IsEnabled = false;
             }
             if (!isSensorListEmpty(sensorBList))
             {
+                insertSortBtnB.IsEnabled = true;
                 targetBoxB.IsEnabled = true;
             }
             if (isSensorListEmpty(sensorBList))
