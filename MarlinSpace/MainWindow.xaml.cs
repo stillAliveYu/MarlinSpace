@@ -606,9 +606,9 @@ namespace MarlinSpace
             e.Handled = const1;
             if (!const1)
             {
-                bool const2 = isTargetOutofBoundary(sensorAList,
+                bool const2 = isTargetOutofBoundary(sensorBList,
                            transformTInt((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text)),
-                           ((sensorAList.Count - 1) / 2));
+                           ((sensorBList.Count - 1) / 2));
                 e.Handled = const2;
             }
         }
